@@ -1,21 +1,30 @@
 resource "aws_vpc" "dev_vpc" {
-  cidr_block = "10.10.0.0/16"
+  cidr_block           = "10.10.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = {
-    Name = "dev-vpc"   
+    Name = "dev-vpc"
   }
 }
 
 
 resource "aws_subnet" "dev_public_subnet" {
-  vpc_id = aws_vpc.dev_vpc.id
-  cidr_block = "10.10.1.0/24"
-  availability_zone = "eu-central-1a"
+  vpc_id                  = aws_vpc.dev_vpc.id
+  cidr_block              = "10.10.1.0/24"
+  availability_zone       = "eu-central-1a"
   map_public_ip_on_launch = true
 
   tags = {
     Name = "dev_public_subnet"
   }
+}
+
+resource "aws_internet_gateway" "dev_internet_gateway" {
+  vpc_id = aws_vpc.dev_vpc.id
+
+  tags = {
+    Name = "dev_igw"
+  }
+
 }
