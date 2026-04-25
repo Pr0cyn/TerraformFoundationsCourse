@@ -28,3 +28,17 @@ resource "aws_internet_gateway" "dev_internet_gateway" {
   }
 
 }
+
+resource "aws_route_table" "dev_rt" {
+  vpc_id = aws_vpc.dev_vpc.id
+
+  tags = {
+    Name = "dev_public_rt"
+  }
+}
+
+resource "aws_route" "name" {
+  route_table_id         = aws_route_table.dev_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.dev_internet_gateway.id
+}
