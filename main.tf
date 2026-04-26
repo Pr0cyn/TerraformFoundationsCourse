@@ -60,7 +60,7 @@ resource "aws_instance" "dev_server" {
   key_name               = aws_key_pair.dev_key.id
   vpc_security_group_ids = [aws_security_group.dev_sg.id]
   subnet_id              = aws_subnet.dev_public_subnet.id
-  user_data = file("userdata.tpl")
+  user_data              = file("userdata.tpl")
 
   root_block_device {
     volume_size = 10
@@ -69,4 +69,12 @@ resource "aws_instance" "dev_server" {
     Name = "dev_server"
   }
 
+  provisioner "local-exec" {
+    command = templatefile("linux-ssh-config.tpl", {
+      hostname     = self.public_ip,
+      user         = "ubuntu"
+      identityfile = "~/.ssh/dev_key"
+    })
+    interpreter = ["/bin/bash", "-c"]
+  }
 }
