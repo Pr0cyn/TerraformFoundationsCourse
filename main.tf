@@ -49,3 +49,8 @@ resource "aws_route_table_association" "rt_public_association" {
   route_table_id = aws_route_table.dev_rt.id
 }
 
+resource "aws_key_pair" "dev_key" {
+  key_name = "dev_ssh_key"
+  public_key = file("~/.ssh/dev_key.pub")
+}
+
