@@ -48,3 +48,4 @@ resource "aws_route_table_association" "rt_public_association" {
   subnet_id      = aws_subnet.dev_public_subnet.id
   route_table_id = aws_route_table.dev_rt.id
 }
+
