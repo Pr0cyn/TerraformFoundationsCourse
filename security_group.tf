@@ -1,9 +1,3 @@
-variable "my_ip" {
-  type        = string
-  description = "My IP address"
-}
-
-
 resource "aws_security_group" "dev_sg" {
   name        = "dev_security_group"
   description = "Security Group for developer"

@@ -8,7 +8,6 @@ resource "aws_vpc" "dev_vpc" {
   }
 }
 
-
 resource "aws_subnet" "dev_public_subnet" {
   vpc_id                  = aws_vpc.dev_vpc.id
   cidr_block              = "10.10.1.0/24"
@@ -70,7 +69,7 @@ resource "aws_instance" "dev_server" {
   }
 
   provisioner "local-exec" {
-    command = templatefile("linux-ssh-config.tpl", {
+    command = templatefile("${var.host_os}-ssh-config.tpl", {
       hostname     = self.public_ip,
       user         = "ubuntu",
       identityfile = "~/.ssh/dev_key"
