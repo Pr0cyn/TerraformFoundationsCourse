@@ -54,3 +54,19 @@ resource "aws_key_pair" "dev_key" {
   public_key = file("~/.ssh/dev_key.pub")
 }
 
+resource "aws_instance" "dev_server" {
+  ami = data.aws_ami.server_ami.id
+  instance_type = "t2.micro"
+
+  tags = {
+     Name = "dev_server"
+  }
+
+    key_name = aws_key_pair.dev_key.id
+    vpc_security_group_ids = [aws_security_group.dev_sg.id]
+    subnet_id = aws_subnet.dev_public_subnet.id
+
+    root_block_device {
+      volume_size = 10
+    }
+}
